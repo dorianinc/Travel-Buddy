@@ -3,6 +3,19 @@ body {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  height: 100%;
+}
+
+body {
+  display: flex;
+  flex-direction: column; 
+  font-family: Arial, sans-serif;
+  background-color: #f5f5f5;
+}
+
+a{
+  all: unset;
+  color: inherit;
 }
 
 body {
@@ -10,6 +23,13 @@ body {
   background-color: #f5f5f5;
 }
 
+.content-wrapper{
+  flex: 1; 
+  border: 2px solid blue;
+  box-sizing: border-box;
+}
+
+/*------------ START OF NAV -------------*/
 .nav-outer {
   padding: 5px 30px 5px 20px;
   display: flex;
@@ -28,7 +48,7 @@ body {
   color: #ffffff;
   font-family: "Inter", sans-serif;
   font-optical-sizing: auto;
-  font-weight: 100;
+  font-weight: 600;
 }
 
 #app-name > h2 {
@@ -80,3 +100,13 @@ body {
   padding: 5px 0;
   height: 4rem;
 }
+/*------------ END OF NAV -------------*/
+
+/*------------ START OF HOME PAGE -------------*/
+
+/* .main-content.home{
+
+} */
+
+
+/*------------ END OF HOME PAGE -------------*/
