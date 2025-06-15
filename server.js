@@ -11,6 +11,18 @@ const homeTemplate = handlebars.compile(
   fs.readFileSync("./views/home.hbs", "utf8")
 );
 
+const serveStaticFile = (res, filepath, contentType) => {
+  fs.readFile(filepath, (err, content) => {
+    if (err) {
+      res.writeHead(404);
+      res.end("File not found");
+    } else {
+      res.writeHead(200, { "Content-Type": contentType });
+      res.end(content);
+    }
+  });
+};
+
 const server = http.createServer((req, res) => {
   if (req.url === "/" || req.url === "/index.html") {
     const content = homeTemplate({ name: "Dorian" });
@@ -28,6 +40,21 @@ const server = http.createServer((req, res) => {
         res.end(data);
       }
     });
+  } else if (req.url.startsWith("/images/")) {
+    const imagePath = path.join(__dirname, "public", req.url);
+    const ext = path.extname(imagePath).toLowerCase();
+    const mimeTypes = {
+      ".png": "image/png",
+      ".jpg": "image/jpeg",
+      ".jpeg": "image/jpeg",
+      ".gif": "image/gif",
+      ".svg": "image/svg+xml",
+    };
+    serveStaticFile(
+      res,
+      imagePath,
+      mimeTypes[ext] || "application/octet-stream"
+    );
   } else {
     res.writeHead(404, { "Content-Type": "text/plain" });
     res.end("Page not found");
