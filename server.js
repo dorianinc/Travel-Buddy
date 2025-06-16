@@ -2,7 +2,8 @@ const http = require("http");
 const fs = require("fs");
 const path = require("path");
 const handlebars = require("handlebars");
-const { url } = require("inspector");
+const destinations = require("./data/destinations");
+console.log("🖥️ destinations: ", destinations);
 
 // Load templates
 const baseTemplate = handlebars.compile(
@@ -36,8 +37,12 @@ const server = http.createServer((req, res) => {
 
   switch (true) {
     case urlPath === "/": {
-      const content = homeTemplate({ name: "Dorian" });
-      const fullHtml = baseTemplate({ title: "Home Page", body: content });
+      const content = homeTemplate({ destinations: destinations });
+      const fullHtml = baseTemplate({
+        title: "Home Page",
+        home: true,
+        body: content,
+      });
       res.writeHead(200, { "Content-Type": "text/html" });
       res.end(fullHtml);
       break;
@@ -46,7 +51,11 @@ const server = http.createServer((req, res) => {
     case urlPath === "/plan": {
       console.log("planning page");
       const content = planTemplate();
-      const fullHtml = baseTemplate({ title: "Home Page", body: content });
+      const fullHtml = baseTemplate({
+        title: "Home Page",
+        home: false,
+        body: content,
+      });
       res.writeHead(200, { "Content-Type": "text/html" });
       res.end(fullHtml);
       break;
@@ -55,7 +64,7 @@ const server = http.createServer((req, res) => {
     case urlPath === "/itinerary": {
       console.log("itinerary page");
       const content = itineraryTemplate();
-      const fullHtml = baseTemplate({ title: "Home Page", body: content });
+      const fullHtml = baseTemplate({ body: content });
       res.writeHead(200, { "Content-Type": "text/html" });
       res.end(fullHtml);
       break;
