@@ -19,6 +19,14 @@ const itineraryTemplate = handlebars.compile(
   fs.readFileSync("./views/layouts/itinerary.hbs", "utf8")
 );
 
+const signupTemplate = handlebars.compile(
+  fs.readFileSync("./views/layouts/signup.hbs", "utf8")
+);
+
+const loginTemplate = handlebars.compile(
+  fs.readFileSync("./views/layouts/login.hbs", "utf8")
+);
+
 const serveStaticFile = (res, filepath, contentType) => {
   fs.readFile(filepath, (err, content) => {
     if (err) {
@@ -64,6 +72,25 @@ const server = http.createServer((req, res) => {
     case urlPath === "/itinerary": {
       console.log("itinerary page");
       const content = itineraryTemplate();
+      const fullHtml = baseTemplate({ body: content });
+      res.writeHead(200, { "Content-Type": "text/html" });
+      res.end(fullHtml);
+      break;
+    }
+
+
+    case urlPath === "/sign-up": {
+      console.log("sign-up page");
+      const content = signupTemplate();
+      const fullHtml = baseTemplate({ body: content });
+      res.writeHead(200, { "Content-Type": "text/html" });
+      res.end(fullHtml);
+      break;
+    }
+
+    case urlPath === "/login": {
+      console.log("login page");
+      const content = loginTemplate();
       const fullHtml = baseTemplate({ body: content });
       res.writeHead(200, { "Content-Type": "text/html" });
       res.end(fullHtml);
